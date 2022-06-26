@@ -77,7 +77,45 @@ Within a single process we can have multiple things called threads. A thread is 
 
 The thread is given to the CPU, and the CPU will try to run those "to-do items" in the thread one by one. The order in which it will run those items is based on the order they are written in the code.
 
-Each process can have multiple threads inside it. You can see the number of process and number of threads that are being used at the moment by opening the task manager of your operating system and you will likely see that there are more threads than process running.
+Each process can have multiple threads inside it. You can see the number of process and number of threads that are being used at the moment by opening the task manager of your operating system, and you will likely see that there are more threads than process running.
+
+You can see the structure of processes and threads in the following diagram:
+
+![threads](assets/images/threads.png)
+
+Beside the "to-do" list inside the thread which represents what action to perform first, the operating system also have something called scheduling.
+The scheduling system's responsibility is to decide which thread the CPU should process at any given time.
+
+For example, let's say we have all those processes and threads that need to be processed:
+
+![threads](assets/images/scheduling.png)
+
+The operating system's scheduler should now decide which threads are the most important to run first.
+
+The scheduler knows which operations are more critical to process first, like in the example above, there is a thread that is responsible to
+move the cursor after a user has moved the mouse, or a thread that will write letter to an input after a users has clicked a button on the keyboard.
+Those processes are more urgent and should not wait for other processes to finish, so the user will not need to wait a couple of seconds just to see the cursor moves around the screen.
+
+There are several strategies to maximize the amount of threads that can run simultaneously, so more processes can get executed at the same time.
+For example, since the CPU is the one that is running the processes, we can add more CPU cores, and each core can handle a thread:
+
+![threads](assets/images/more-cpu.png)
+
+It's also possible that one core will process multiple threads at the same time using something that's called "multi-threading", but we will touch on that further along the course.
+
+Another approach by the scheduler to maximize thread processing is to check any threads with I/O operations that might take time and pause those processes in order
+to allow non-I/O processes to finish running, and then continue the paused I/O process:
+
+![threads](assets/images/io-thread.png)
+
+An I/O (input/output) process takes time because the process requires other resources beside the CPU to run and return some output or alternatively, write some inputs into those external resources.
+Since the CPU has no control over how long can it takes, it can potentially block other processes (which some of them can be run faster using only the CPU) and that's why this approach is important in order to relieve any blocked processes.
+
+An example for an I/O operation is reading a file's contents (like using the `fs` module), or writing to a database, which both of those things sit in an external resource (the hard-drive or from the internet).
+
+
+
+
 
 
 
