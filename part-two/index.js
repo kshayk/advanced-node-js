@@ -1,3 +1,12 @@
+const cluster = require('cluster');
+
+console.log(cluster.isMaster);
+
+if (cluster.isMaster) {
+    cluster.fork();
+    return;
+}
+
 const express = require('express');
 const app = express();
 
